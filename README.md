@@ -4,7 +4,7 @@
 
 ### Install wab-generator library
 
-```
+```sh
 git clone https://github.com/gbovyn/wab-generator
 cd wab-generator
 .\gradlew clean build install
@@ -12,7 +12,7 @@ cd wab-generator
 
 ### Install wab-generator-gradle-plugin
 
-```
+```sh
 git clone https://github.com/gbovyn/wab-generator-gradle-plugin
 cd wab-generator-gradle-plugin
 .\gradlew clean build install
@@ -20,7 +20,7 @@ cd wab-generator-gradle-plugin
 
 ### Configure in your project build.gradle
 
-```
+```groovy
 buildscript {
 	repositories {
 		mavenLocal()
@@ -32,4 +32,10 @@ buildscript {
 }
 
 apply plugin: "be.gfi.liferay.dowab"
+```
+
+### Run task
+
+```sh
+.\gradlew clean build doWab
 ```
