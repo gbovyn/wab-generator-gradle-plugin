@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'java-gradle-plugin'
+}
+
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+group 'be.gfi.liferay.dowab'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile gradleApi()
+}
