@@ -27,11 +27,15 @@ buildscript {
 	}
 
 	dependencies {
-		classpath group: "be.gfi.liferay.dowab", name: "wab-generator-gradle-plugin", version: "1.0-SNAPSHOT"
+		classpath group: 'be.gfi.liferay.dowab', name: 'wab-generator-gradle-plugin', version: '1.0-SNAPSHOT'
 	}
 }
 
-apply plugin: "be.gfi.liferay.dowab"
+apply plugin: 'be.gfi.liferay.dowab'
+
+doWabSettings {
+	tomcatFolder = 'E:/liferay71/bundles/tomcat-9.0.6/'
+}
 ```
 
 ### Run task
