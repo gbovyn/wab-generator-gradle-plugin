@@ -17,10 +17,12 @@ import java.util.Map;
 
 public class WabGeneratorTask extends DefaultTask {
 
+
     private static Logger logger = LoggerFactory.getLogger(WabGeneratorTask.class);
 
     private static final String SLASH = "/";
     private static final String WEB_CONTEXT_PATH = "Web-ContextPath";
+    private static final String DEPLOY_DIR = "DEPLOY_DIR";
     private static final String TOMCAT_DIR = "TOMCAT_DIR";
 
     @TaskAction
@@ -37,11 +39,13 @@ public class WabGeneratorTask extends DefaultTask {
         String[] bundleSymbolicName = { warFileName };
         String[] webContextPath = { SLASH + warFileName };
         String[] tomcatDir = { extension.getTomcatFolder() };
+        String[] deployDir = { extension.getDeployFolder() };
 
         Map<String, String[]> parameters = new HashMap<>();
         parameters.put(Constants.BUNDLE_SYMBOLICNAME, bundleSymbolicName);
         parameters.put(WEB_CONTEXT_PATH, webContextPath);
         parameters.put(TOMCAT_DIR, tomcatDir);
+        parameters.put(DEPLOY_DIR, deployDir);
 
         WabGenerator wabProcessor = new WabGenerator();
         wabProcessor.generate(null, warFile, parameters);
