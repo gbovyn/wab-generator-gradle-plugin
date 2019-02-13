@@ -18,7 +18,9 @@ cd wab-generator-gradle-plugin
 .\gradlew clean build install
 ```
 
-### Deploy 
+### Deploy liferay-dowab
+
+Liferay cannot deploy WAB files. This OSGi bundle will take care of that for us:
 
 ```sh
 git clone https://github.com/sueastside/liferay-dowab
@@ -47,6 +49,9 @@ doWabSettings {
 	tomcatFolder = 'E:/liferay71/bundles/tomcat-9.0.6/'
 }
 ```
+
+Tomcat folder location is required for the WAB to include all necessary TLD files.
+Deploy folder location is optional. In case the value is not present the file will always be written in `{PROJECT}/liferay/osgi/wabs`.
 
 ### Run task
 
