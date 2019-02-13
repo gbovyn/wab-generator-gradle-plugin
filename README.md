@@ -53,6 +53,21 @@ doWabSettings {
 Tomcat folder location is required for the WAB to include all necessary TLD files.
 Deploy folder location is optional. In case the value is not present the file will always be written in `{PROJECT}/liferay/osgi/wabs`.
 
+Those properties can also be configured in `%USERPROFILE%/.gradle/gradle.properties`:
+
+```
+deployFolder=E:/liferay71/bundles/dowab/
+tomcatFolder=E:/liferay71/bundles/tomcat-9.0.6/
+```
+and then used in the build.gradle:
+```
+doWabSettings {
+	deployFolder = deployFolder
+	tomcatFolder = tomcatFolder
+}
+```
+Note: Those lines are not needed if the variables are declared in gradle.properties - the plugin check gradle.properties and use those values if nothing is configured in the build.gradle.
+
 ### Run task
 
 ```sh
