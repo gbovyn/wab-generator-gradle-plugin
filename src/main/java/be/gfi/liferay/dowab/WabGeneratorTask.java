@@ -11,9 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class WabGeneratorTask extends DefaultTask {
 
@@ -33,6 +35,16 @@ public class WabGeneratorTask extends DefaultTask {
 
         final WabGeneratorExtension extension = getProject().getExtensions().getByType(WabGeneratorExtension.class);
 
+        Properties properties = new Properties();
+        properties.load(new FileInputStream(System.getenv("USERPROFILE") + "/.gradle/gradle.properties"));
+        if (extension.getDeployFolder() == null) {
+            extension.setDeployFolder(properties.getProperty("deployFolder"));
+            System.out.println("Deploy folder loaded from property file");
+        }
+        if (extension.getTomcatFolder() == null) {
+            extension.setTomcatFolder(properties.getProperty("tomcatFolder"));
+            System.out.println("Tomcat folder loaded from property file");
+        }
 
         logger.info("Processing {}", warFileName);
 
