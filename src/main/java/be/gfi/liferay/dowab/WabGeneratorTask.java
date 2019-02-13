@@ -1,8 +1,7 @@
 package be.gfi.liferay.dowab;
 
 import aQute.bnd.osgi.Constants;
-import com.liferay.portal.osgi.web.wab.generator.WabProcessorTask;
-import com.liferay.portal.tools.ToolDependencies;
+import com.liferay.portal.osgi.web.wab.generator.internal.WabGenerator;
 import org.apache.commons.io.FilenameUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Task;
@@ -22,26 +21,30 @@ public class WabGeneratorTask extends DefaultTask {
 
     private static final String SLASH = "/";
     private static final String WEB_CONTEXT_PATH = "Web-ContextPath";
+    private static final String TOMCAT_DIR = "TOMCAT_DIR";
 
     @TaskAction
     public void doWab() throws IOException {
-        ToolDependencies.wire();
-
         final Task warTask = getProject().getTasks().getByName(WarPlugin.WAR_TASK_NAME);
         final File warFile = warTask.getOutputs().getFiles().getSingleFile();
         final String warFileName = FilenameUtils.getBaseName(warFile.getName());
+
+        final WabGeneratorExtension extension = getProject().getExtensions().getByType(WabGeneratorExtension.class);
+
 
         logger.info("Processing {}", warFileName);
 
         String[] bundleSymbolicName = { warFileName };
         String[] webContextPath = { SLASH + warFileName };
+        String[] tomcatDir = { extension.getTomcatFolder() };
 
         Map<String, String[]> parameters = new HashMap<>();
         parameters.put(Constants.BUNDLE_SYMBOLICNAME, bundleSymbolicName);
         parameters.put(WEB_CONTEXT_PATH, webContextPath);
+        parameters.put(TOMCAT_DIR, tomcatDir);
 
-        WabProcessorTask wabProcessor = new WabProcessorTask(getClass().getClassLoader(), warFile, parameters);
-        wabProcessor.getProcessedFile();
+        WabGenerator wabProcessor = new WabGenerator();
+        wabProcessor.generate(null, warFile, parameters);
 
         logger.info("doWab done");
     }
