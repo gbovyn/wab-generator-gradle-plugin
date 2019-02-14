@@ -60,13 +60,41 @@ deployFolder=E:/liferay71/bundles/dowab/
 tomcatFolder=E:/liferay71/bundles/tomcat-9.0.6/
 ```
 and then used in the build.gradle:
-```
+```groovy
 doWabSettings {
 	deployFolder = deployFolder
 	tomcatFolder = tomcatFolder
 }
 ```
 Note: Those lines are not needed if the variables are declared in gradle.properties - the plugin check gradle.properties and use those values if nothing is configured in the build.gradle.
+
+### System wide configuration
+
+Add in `%USERPROFILE/.gradle/init.gradle` for the task to be available in all your projects:
+
+```groovy
+initscript {
+    repositories {
+		mavenLocal()
+		maven {
+			url 'https://cdn.lfrs.sl/repository.liferay.com/nexus/content/groups/public'
+		}
+	}
+
+	dependencies {
+		classpath group: 'be.gfi.liferay.dowab', name: 'wab-generator-gradle-plugin', version: '1.0-SNAPSHOT'
+	}
+}
+
+allprojects {
+    project.apply plugin: be.gfi.liferay.dowab.WabGeneratorPlugin
+
+    doWabSettings {
+        deployFolder = deployFolder
+        tomcatFolder = tomcatFolder
+    }
+}
+```
 
 ### Run task
 
